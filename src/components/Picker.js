@@ -1,7 +1,6 @@
 import React from "react";
-import { Paper, Grid, Typography, Divider } from "@mui/material";
-import { format, differenceInCalendarMonths } from "date-fns";
-import { ArrowRightAlt } from "@mui/icons-material";
+import { Paper, Grid } from "@mui/material";
+import { differenceInCalendarMonths } from "date-fns";
 import { makeStyles } from "@mui/styles";
 import Month from "./Month";
 import { MARKERS } from "..";

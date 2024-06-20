@@ -88,7 +88,7 @@ const Header = ({
           variant="standard"
           MenuProps={{ disablePortal: true }}
         >
-          {generateYears(date, 20).map((year) => (
+          {generateYears(date, 30).map((year) => (
             <MenuItem key={year} value={year}>
               {year}
             </MenuItem>

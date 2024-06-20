@@ -48,8 +48,8 @@ const dateRangePicker = (props) => {
   const textFieldRef = useRef(null);
   const classes = useStyles();
   //Min date & Max Date
-  const minValidDate = parseOptionalDate(minDate, addYears(today, -10));
-  const maxValidDate = parseOptionalDate(maxDate, addYears(today, 10));
+  const minValidDate = parseOptionalDate(minDate, addYears(today, -15));
+  const maxValidDate = parseOptionalDate(maxDate, addYears(today, 15));
 
   const [initialFirstMonth, initialSecondMonth] = getValidatedMonths(
     initialDateRange || {},
