@@ -34,12 +34,19 @@ const Picker = (props) => {
     setDateRange,
     helpers,
     handlers,
+    highlightColor,
   } = props;
-  const { startDate, endDate } = dateRange;
   const classes = useStyles();
   const canNavigateCloser =
     differenceInCalendarMonths(secondMonth, firstMonth) >= 2;
-  const commonProps = { dateRange, minDate, maxDate, helpers, handlers };
+  const commonProps = {
+    dateRange,
+    minDate,
+    maxDate,
+    helpers,
+    handlers,
+    highlightColor,
+  };
 
   return (
     <Paper elevation={2} square>

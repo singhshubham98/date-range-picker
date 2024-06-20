@@ -51,6 +51,7 @@ const Month = (props) => {
     setValue: setDate,
     minDate,
     maxDate,
+    highlightColor,
   } = props;
   const classes = useStyles();
   const [back, forward] = props.navState;
@@ -103,6 +104,7 @@ const Month = (props) => {
                     onClick={() => handlers.onDayClick(day)}
                     onHover={() => handlers.onDayHover(day)}
                     value={getDate(day)}
+                    highlightColor={highlightColor}
                   />
                 );
               })}

@@ -42,6 +42,7 @@ const dateRangePicker = (props) => {
     maxDate,
     value,
     definedRanges = defaultRanges,
+    highlightColor = "#1faf4a",
   } = props;
   const [open, setOpen] = useState(true);
   const textFieldRef = useRef(null);
@@ -172,6 +173,7 @@ const dateRangePicker = (props) => {
               setDateRange={setDateRangeValidated}
               helpers={helpers}
               handlers={handlers}
+              highlightColor={highlightColor}
             />
           </Paper>
         )}

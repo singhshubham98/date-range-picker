@@ -21,15 +21,15 @@ const useStyles = makeStyles((theme) => ({
   buttonText: {
     lineHeight: 1.6,
   },
-  outlined: {
-    border: `1px solid #303f9f`,
-  },
-  filled: {
+  outlined: (props) => ({
+    border: `1px solid ${props.highlightColor}`,
+  }),
+  filled: (props) => ({
     "&:hover": {
-      backgroundColor: "#303f9f",
+      backgroundColor: props.highlightColor,
     },
-    backgroundColor: "#303f9f",
-  },
+    backgroundColor: props.highlightColor,
+  }),
   highlighted: {
     backgroundColor: "rgba(0, 0, 0, 0.08)",
   },
@@ -39,7 +39,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Day = (props) => {
-  const classes = useStyles();
+  const { highlightColor } = props;
+  const classes = useStyles({ highlightColor });
 
   return (
     <div
