@@ -40,10 +40,7 @@ const App = () => {
   return (
     <div>
       <h1>Date Range Picker Example</h1>
-      <DateRangePicker
-        value={`${dateRange.startDate?.toLocaleDateString()} - ${dateRange.endDate?.toLocaleDateString()}`}
-        onChange={setDateRange}
-      />
+      <DateRangePicker value={dateRange} onChange={setDateRange} />
     </div>
   );
 };
@@ -53,13 +50,12 @@ export default App;
 
 ## Props
 
-| Name             | Type   | Default               | Description                                                 |
-| ---------------- | ------ | --------------------- | ----------------------------------------------------------- |
-| value            | string | ""                    | The string value representing the selected date range.      |
-| onChange         | func   | null                  | Callback function when the date range changes.              |
-| initialDateRange | object | {}                    | The initial date range to be displayed.                     |
-| minDate          | date   | 15 years before today | The minimum date that can be selected. (format: MM/DD/YYYY) |
-| maxDate          | date   | 15 years after today  | The maximum date that can be selected. (format: MM/DD/YYYY) |
-| definedRanges    | array  |                       | Predefined date ranges for quick selection.                 |
-| highlightColor   | string | #1faf4a               | highlight color for the date picker popup.                  |
-| timezone         | string | America/New_York      | Timezone.                                                   |
+| Name             | Type   | Default                | Description                                        |
+| ---------------- | ------ | ---------------------- | -------------------------------------------------- |
+| onChange         | func   | null                   | Callback function to handle the date range change. |
+| initialDateRange | object | {}                     | Initial date range with startDate and endDate.     |
+| minDate          | date   | new Date(2000, 0, 1)   | Minimum selectable date.                           |
+| maxDate          | date   | new Date(2030, 11, 31) | Maximum selectable date.                           |
+| highlightColor   | string | "#1faf4a"              | Color used to highlight selected dates.            |
+| timezone         | string | America/New_York       | Time zone for the date range picker.               |
+| label            | string | "Select date range"    | Label for the date range picker input field.       |

@@ -143,3 +143,27 @@ export const getTimezonedDate = (date, timeZone) => {
 export const formatDate = (date, acceptedFormat = "MM-dd-yyyy HH:MM:SS") => {
   return format(date, acceptedFormat);
 };
+
+export const formatDateWithTime = (iso, start = true) => {
+  const date = new Date(iso);
+  const dateLanguage = "en-US";
+  const estDate = date.toLocaleDateString(dateLanguage);
+
+  const estTime = start ? "00:00:00" : "23:59:59";
+
+  const year = estDate.split("/")[2];
+  let month = estDate.split("/")[0];
+  let dt = estDate.split("/")[1];
+  let hh = estTime.split(":")[0];
+  let mm = estTime.split(":")[1];
+  let ss = estTime.split(":")[2];
+
+  if (dt < 10) {
+    dt = "0" + dt.toString();
+  }
+  if (month < 10) {
+    month = "0" + month.toString();
+  }
+
+  return `${month}/${dt}/${year} ${hh}:${mm}:${ss}`;
+};

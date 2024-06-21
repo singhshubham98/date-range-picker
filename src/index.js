@@ -13,6 +13,7 @@ import {
   startOfDay,
 } from "date-fns";
 import {
+  formatDateWithTime,
   defaultRanges,
   formatDate,
   getTimezonedDate,
@@ -39,22 +40,20 @@ export const MARKERS = {
 
 const dateRangePicker = (props) => {
   const today = getTimezonedDate(new Date(), "America/New_York");
-  const defaultRangesWithTimezone = defaultRanges(
-    props.timeZone || "America/New_York"
-  );
   const {
     onChange,
     initialDateRange,
     minDate,
     maxDate,
-    value,
     timezone = "America/New_York",
-    definedRanges = defaultRangesWithTimezone,
     highlightColor = "#1faf4a",
+    label = "Select date range",
   } = props;
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const textFieldRef = useRef(null);
   const classes = useStyles();
+
+  const defaultRangesWithTimezone = defaultRanges(timezone);
   //Min date & Max Date
   const minValidDate = parseOptionalDate(
     minDate,
@@ -168,6 +167,7 @@ const dateRangePicker = (props) => {
   };
 
   const handleClickAway = () => {
+    console.log("hi");
     setOpen(false);
   };
 
@@ -177,14 +177,16 @@ const dateRangePicker = (props) => {
 
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
-      <>
+      <div>
         <CustomInput
           value={
-            value && value.startDate && value.endDate
-              ? `${value.startDate}-${value.endDate}`
+            dateRange.startDate && dateRange.endDate
+              ? `${formatDateWithTime(
+                  dateRange.startDate
+                )} - ${formatDateWithTime(dateRange.endDate, false)}`
               : ""
           }
-          onChange={handleDateChange}
+          label={label}
           onClick={handleClick}
           inputRef={textFieldRef}
         />
@@ -194,7 +196,7 @@ const dateRangePicker = (props) => {
               dateRange={dateRange}
               minDate={minValidDate}
               maxDate={maxValidDate}
-              ranges={definedRanges}
+              ranges={defaultRangesWithTimezone}
               firstMonth={firstMonth}
               secondMonth={secondMonth}
               setFirstMonth={setFirstMonthValidated}
@@ -207,7 +209,7 @@ const dateRangePicker = (props) => {
             />
           </Paper>
         )}
-      </>
+      </div>
     </ClickAwayListener>
   );
 };
