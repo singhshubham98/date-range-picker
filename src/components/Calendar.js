@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import { Paper, Grid, Typography } from "@mui/material";
 import {
   getDate,
@@ -15,6 +15,7 @@ import {
   isEndOfRange,
   isInDateRange,
   isRangeSameDay,
+  getTimezonedDate,
 } from "../utils/defaults";
 import Header from "./Header";
 import Day from "./Day";
@@ -41,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Month = (props) => {
+const Calendar = (props) => {
   const {
     helpers,
     handlers,
@@ -52,6 +53,7 @@ const Month = (props) => {
     minDate,
     maxDate,
     highlightColor,
+    timezone,
   } = props;
   const classes = useStyles();
   const [back, forward] = props.navState;
@@ -80,30 +82,32 @@ const Month = (props) => {
           {chunks(getDaysInMonth(date), 7).map((week, idx) => (
             <Grid key={idx} container direction="row" justify="center">
               {week.map((day) => {
-                const isStart = isStartOfRange(dateRange, day);
-                const isEnd = isEndOfRange(dateRange, day);
+                const zonedDay = getTimezonedDate(day, timezone);
+                const isStart = isStartOfRange(dateRange, zonedDay);
+                const isEnd = isEndOfRange(dateRange, zonedDay);
                 const isRangeOneDay = isRangeSameDay(dateRange);
                 const highlighted =
-                  isInDateRange(dateRange, day) || helpers.inHoverRange(day);
+                  isInDateRange(dateRange, zonedDay) ||
+                  helpers.inHoverRange(zonedDay);
 
                 return (
                   <Day
                     key={format(day, "mm-dd-yyyy")}
                     filled={isStart || isEnd}
-                    outlined={isToday(day)}
+                    outlined={isToday(zonedDay)}
                     highlighted={highlighted && !isRangeOneDay}
                     disabled={
-                      !isSameMonth(date, day) ||
-                      !isWithinInterval(day, {
+                      !isSameMonth(date, zonedDay) ||
+                      !isWithinInterval(zonedDay, {
                         start: minDate,
                         end: maxDate,
                       })
                     }
                     startOfRange={isStart && !isRangeOneDay}
                     endOfRange={isEnd && !isRangeOneDay}
-                    onClick={() => handlers.onDayClick(day)}
-                    onHover={() => handlers.onDayHover(day)}
-                    value={getDate(day)}
+                    onClick={() => handlers.onDayClick(zonedDay)}
+                    onHover={() => handlers.onDayHover(zonedDay)}
+                    value={getDate(zonedDay)}
                     highlightColor={highlightColor}
                   />
                 );
@@ -116,4 +120,4 @@ const Month = (props) => {
   );
 };
 
-export default Month;
+export default Calendar;

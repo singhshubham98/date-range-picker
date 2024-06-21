@@ -2,7 +2,7 @@ import React from "react";
 import { Paper, Grid } from "@mui/material";
 import { differenceInCalendarMonths } from "date-fns";
 import { makeStyles } from "@mui/styles";
-import Month from "./Month";
+import Calendar from "./Calendar";
 import { MARKERS } from "..";
 import DefinedRanges from "./DefinedRanges";
 
@@ -34,6 +34,7 @@ const Picker = (props) => {
     helpers,
     handlers,
     highlightColor,
+    timezone,
   } = props;
   const classes = useStyles();
   const canNavigateCloser =
@@ -45,6 +46,7 @@ const Picker = (props) => {
     helpers,
     handlers,
     highlightColor,
+    timezone,
   };
 
   return (
@@ -52,7 +54,7 @@ const Picker = (props) => {
       <Grid container direction="row">
         <Grid item>
           <Grid container direction="row" justifyContent="center">
-            <Month
+            <Calendar
               {...commonProps}
               value={firstMonth}
               setValue={setFirstMonth}
@@ -60,7 +62,7 @@ const Picker = (props) => {
               marker={MARKERS.FIRST_MONTH}
             />
             <div className={classes.divider} />
-            <Month
+            <Calendar
               {...commonProps}
               value={secondMonth}
               setValue={setSecondMonth}

@@ -9,9 +9,13 @@ import {
   addYears,
   max,
   min,
+  endOfDay,
+  startOfDay,
 } from "date-fns";
 import {
   defaultRanges,
+  formatDate,
+  getTimezonedDate,
   getValidatedMonths,
   parseOptionalDate,
 } from "./utils/defaults";
@@ -34,27 +38,40 @@ export const MARKERS = {
 };
 
 const dateRangePicker = (props) => {
-  const today = new Date();
+  const today = getTimezonedDate(new Date(), "America/New_York");
+  const defaultRangesWithTimezone = defaultRanges(
+    props.timeZone || "America/New_York"
+  );
   const {
     onChange,
     initialDateRange,
     minDate,
     maxDate,
     value,
-    definedRanges = defaultRanges,
+    timezone = "America/New_York",
+    definedRanges = defaultRangesWithTimezone,
     highlightColor = "#1faf4a",
   } = props;
   const [open, setOpen] = useState(true);
   const textFieldRef = useRef(null);
   const classes = useStyles();
   //Min date & Max Date
-  const minValidDate = parseOptionalDate(minDate, addYears(today, -15));
-  const maxValidDate = parseOptionalDate(maxDate, addYears(today, 15));
+  const minValidDate = parseOptionalDate(
+    minDate,
+    addYears(today, -15),
+    timezone
+  );
+  const maxValidDate = parseOptionalDate(
+    maxDate,
+    addYears(today, 15),
+    timezone
+  );
 
   const [initialFirstMonth, initialSecondMonth] = getValidatedMonths(
     initialDateRange || {},
     minValidDate,
-    maxValidDate
+    maxValidDate,
+    timezone
   );
   const [dateRange, setDateRange] = useState({ ...initialDateRange });
   const [hoverDay, setHoverDay] = useState();
@@ -78,7 +95,6 @@ const dateRangePicker = (props) => {
 
   const setDateRangeValidated = (range) => {
     let { startDate: newStart, endDate: newEnd } = range;
-
     if (newStart && newEnd) {
       range.startDate = newStart = max([newStart, minValidDate]);
       range.endDate = newEnd = min([newEnd, maxValidDate]);
@@ -93,11 +109,15 @@ const dateRangePicker = (props) => {
 
   const onDayClick = (day) => {
     if (startDate && !endDate && !isBefore(day, startDate)) {
-      const newRange = { startDate, endDate: day };
-      onChange && onChange(newRange);
+      const newRange = { startDate, endDate: endOfDay(day) };
+      onChange &&
+        onChange({
+          startDate: formatDate(newRange.startDate),
+          endDate: formatDate(newRange.endDate),
+        });
       setDateRange(newRange);
     } else {
-      setDateRange({ startDate: day, endDate: undefined });
+      setDateRange({ startDate: startOfDay(day), endDate: undefined });
     }
     setHoverDay(day);
   };
@@ -151,11 +171,20 @@ const dateRangePicker = (props) => {
     setOpen(false);
   };
 
+  const handleDateChange = (event) => {
+    console.log("event", event.target);
+  };
+
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <>
         <CustomInput
-          value={value}
+          value={
+            value && value.startDate && value.endDate
+              ? `${value.startDate}-${value.endDate}`
+              : ""
+          }
+          onChange={handleDateChange}
           onClick={handleClick}
           inputRef={textFieldRef}
         />
@@ -174,6 +203,7 @@ const dateRangePicker = (props) => {
               helpers={helpers}
               handlers={handlers}
               highlightColor={highlightColor}
+              timezone={timezone}
             />
           </Paper>
         )}

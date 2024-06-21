@@ -10,23 +10,25 @@ import {
   isSameDay,
   isWithinInterval,
   toDate,
-  parseISO,
   isValid,
   max,
   min,
   isSameMonth,
+  startOfDay,
+  endOfDay,
 } from "date-fns";
+import { toZonedTime, format } from "date-fns-tz";
 
 const getDefaultRanges = (date) => [
   {
     label: "Today",
-    startDate: date,
-    endDate: date,
+    startDate: startOfDay(date),
+    endDate: endOfDay(date),
   },
   {
     label: "Yesterday",
-    startDate: addDays(date, -1),
-    endDate: addDays(date, -1),
+    startDate: startOfDay(addDays(date, -1)),
+    endDate: endOfDay(addDays(date, -1)),
   },
   {
     label: "This Week",
@@ -55,7 +57,8 @@ const getDefaultRanges = (date) => [
   },
 ];
 
-export const defaultRanges = getDefaultRanges(new Date());
+export const defaultRanges = (timeZone) =>
+  getDefaultRanges(getTimezonedDate(new Date(), timeZone));
 
 export const getDaysInMonth = (date) => {
   const startWeek = startOfWeek(startOfMonth(date));
@@ -94,31 +97,33 @@ export const isRangeSameDay = (startDate, endDate) => {
   return false;
 };
 
-export const parseOptionalDate = (date, defaultValue) => {
+export const parseOptionalDate = (date, defaultValue, timeZone) => {
   if (date instanceof Date) {
     const parsed = toDate(date);
-    if (isValid(parsed)) return parsed;
+    if (isValid(parsed)) return getTimezonedDate(parsed, timeZone);
   }
-
-  if (date instanceof String) {
-    const parsed = parseISO(date);
-    if (isValid(parsed)) return parsed;
+  if (typeof date === "string") {
+    const parsed = new Date(date);
+    if (isValid(parsed)) return getTimezonedDate(parsed, timeZone);
   }
   return defaultValue;
 };
 
-export const getValidatedMonths = (range, minDate, maxDate) => {
+export const getValidatedMonths = (range, minDate, maxDate, timeZone) => {
   let { startDate, endDate } = range;
   if (startDate && endDate) {
-    const newStart = max([startDate, minDate]);
-    const newEnd = min([endDate, maxDate]);
+    const newStart = max([getTimezonedDate(startDate, timeZone), minDate]);
+    const newEnd = min([getTimezonedDate(endDate, timeZone), maxDate]);
 
     return [
       newStart,
       isSameMonth(newStart, newEnd) ? addMonths(newStart, 1) : newEnd,
     ];
   } else {
-    return [startDate, endDate];
+    return [
+      getTimezonedDate(startDate, timeZone),
+      getTimezonedDate(endDate, timeZone),
+    ];
   }
 };
 
@@ -128,4 +133,13 @@ export const chunks = (array, size) => {
   return Array.from({ length: Math.ceil(array.length / size) }, (v, i) =>
     array.slice(i * size, i * size + size)
   );
+};
+
+export const getTimezonedDate = (date, timeZone) => {
+  let zonedDate = toZonedTime(date, timeZone);
+  return zonedDate == "Invalid Date" ? null : zonedDate;
+};
+
+export const formatDate = (date, acceptedFormat = "MM-dd-yyyy HH:MM:SS") => {
+  return format(date, acceptedFormat);
 };

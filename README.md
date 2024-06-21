@@ -53,12 +53,13 @@ export default App;
 
 ## Props
 
-| Name               | Type     | Default               | Description                                            |
-| ------------------ | -------- | --------------------- | ------------------------------------------------------ |
-| `value`            | `string` | `""`                  | The string value representing the selected date range. |
-| `onChange`         | `func`   | `null`                | Callback function when the date range changes.         |
-| `initialDateRange` | `object` | `{}`                  | The initial date range to be displayed.                |
-| `minDate`          | `date`   | 15 years before today | The minimum date that can be selected.                 |
-| `maxDate`          | `date`   | 15 years after today  | The maximum date that can be selected.                 |
-| `definedRanges`    | `array`  | `defaultRanges`       | Predefined date ranges for quick selection.            |
-| `highlightColor`   | `string` | `"#1faf4a""`          | highlight color for the date picker popup.             |
+| Name             | Type   | Default               | Description                                                 |
+| ---------------- | ------ | --------------------- | ----------------------------------------------------------- |
+| value            | string | ""                    | The string value representing the selected date range.      |
+| onChange         | func   | null                  | Callback function when the date range changes.              |
+| initialDateRange | object | {}                    | The initial date range to be displayed.                     |
+| minDate          | date   | 15 years before today | The minimum date that can be selected. (format: MM/DD/YYYY) |
+| maxDate          | date   | 15 years after today  | The maximum date that can be selected. (format: MM/DD/YYYY) |
+| definedRanges    | array  |                       | Predefined date ranges for quick selection.                 |
+| highlightColor   | string | #1faf4a               | highlight color for the date picker popup.                  |
+| timezone         | string | America/New_York      | Timezone.                                                   |
