@@ -8,10 +8,6 @@ A customizable React date range picker component.
 - [Usage](#usage)
   - [Basic Example](#basic-example)
 - [Props](#props)
-- [Development](#development)
-  - [Running Locally](#running-locally)
-  - [Building for Production](#building-for-production)
-- [License](#license)
 
 ## Installation
 
@@ -59,3 +55,9 @@ export default App;
 | highlightColor   | string | "#1faf4a"              | Color used to highlight selected dates.            |
 | timezone         | string | America/New_York       | Time zone for the date range picker.               |
 | label            | string | "Select date range"    | Label for the date range picker input field.       |
+
+## Contributors
+
+<a href="https://github.com/singhshubham98/date-range-picker/graphs/contributors">
+  <img src="https://contributors-img.web.app/image?repo=singhshubham98/date-range-picker" />
+</a>
