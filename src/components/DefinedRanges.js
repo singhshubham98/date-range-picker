@@ -15,7 +15,12 @@ const DefinedRanges = (props) => {
   return (
     <List>
       {props.ranges.map((range, idx) => (
-        <ListItem button key={idx} onClick={() => props.setRange(range)}>
+        <ListItem
+          button
+          style={{ padding: "5px 15px" }}
+          key={idx}
+          onClick={() => props.setRange(range)}
+        >
           <ListItemText
             primaryTypographyProps={{
               variant: "body2",

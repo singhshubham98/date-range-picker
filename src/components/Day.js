@@ -14,8 +14,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
   },
   button: {
-    height: 36,
-    width: 36,
+    height: 28,
+    width: 28,
     padding: 0,
   },
   buttonText: {

@@ -1,5 +1,5 @@
 import React from "react";
-import { Grid, IconButton, Select, MenuItem } from "@mui/material";
+import { IconButton, Select, MenuItem } from "@mui/material";
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import { makeStyles } from "@mui/styles";
 import { setMonth, getMonth, setYear, getYear } from "date-fns";
@@ -31,11 +31,10 @@ const MONTHS = [
   "Dec",
 ];
 
-const generateYears = (relativeTo, count) => {
-  const half = Math.floor(count / 2);
-  return Array(count)
+const generateYears = (relativeTo) => {
+  return Array(150)
     .fill(0)
-    .map((y, i) => relativeTo.getFullYear() - half + i); // TODO: make part of the state
+    .map((y, i) => relativeTo.getFullYear() - 100 + i); // TODO: make part of the state
 };
 
 const Header = ({
@@ -56,8 +55,14 @@ const Header = ({
   };
 
   return (
-    <Grid container justifyContent="space-between" alignItems="center">
-      <Grid item className={classes.iconContainer}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      }}
+    >
+      <div className={classes.iconContainer}>
         <IconButton
           className={classes.icon}
           disabled={prevDisabled}
@@ -65,37 +70,34 @@ const Header = ({
         >
           <ChevronLeft color={prevDisabled ? "disabled" : "action"} />
         </IconButton>
-      </Grid>
-      <Grid item>
-        <Select
-          value={getMonth(date)}
-          onChange={handleMonthChange}
-          variant="standard"
-          MenuProps={{ disablePortal: true }}
-        >
-          {MONTHS.map((month, idx) => (
-            <MenuItem key={month} value={idx}>
-              {month}
-            </MenuItem>
-          ))}
-        </Select>
-      </Grid>
-
-      <Grid item>
+      </div>
+      <Select
+        value={getMonth(date)}
+        onChange={handleMonthChange}
+        variant="standard"
+        MenuProps={{ disablePortal: true }}
+      >
+        {MONTHS.map((month, idx) => (
+          <MenuItem key={month} value={idx}>
+            {month}
+          </MenuItem>
+        ))}
+      </Select>
+      <div style={{ marginLeft: "20px" }}>
         <Select
           value={getYear(date)}
           onChange={handleYearChange}
           variant="standard"
           MenuProps={{ disablePortal: true }}
         >
-          {generateYears(date, 30).map((year) => (
+          {generateYears(date).map((year) => (
             <MenuItem key={year} value={year}>
               {year}
             </MenuItem>
           ))}
         </Select>
-      </Grid>
-      <Grid item className={classes.iconContainer}>
+      </div>
+      <div className={classes.iconContainer}>
         <IconButton
           className={classes.icon}
           disabled={nextDisabled}
@@ -103,8 +105,8 @@ const Header = ({
         >
           <ChevronRight color={nextDisabled ? "disabled" : "action"} />
         </IconButton>
-      </Grid>
-    </Grid>
+      </div>
+    </div>
   );
 };
 

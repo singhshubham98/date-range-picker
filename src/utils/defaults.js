@@ -19,7 +19,7 @@ import {
 } from "date-fns";
 import { toZonedTime, format } from "date-fns-tz";
 
-const getDefaultRanges = (date) => [
+const getPreviousDefaultRanges = (date) => [
   {
     label: "Today",
     startDate: startOfDay(date),
@@ -57,8 +57,49 @@ const getDefaultRanges = (date) => [
   },
 ];
 
-export const defaultRanges = (timeZone) =>
-  getDefaultRanges(getTimezonedDate(new Date(), timeZone));
+const getFutureDefaultRanges = (date) => [
+  {
+    label: "Today",
+    startDate: startOfDay(date),
+    endDate: endOfDay(date),
+  },
+  {
+    label: "Tomorrow",
+    startDate: startOfDay(addDays(date, 1)),
+    endDate: endOfDay(addDays(date, 1)),
+  },
+  {
+    label: "This Week",
+    startDate: startOfWeek(date),
+    endDate: endOfWeek(date),
+  },
+  {
+    label: "Next Week",
+    startDate: startOfWeek(addWeeks(date, 1)),
+    endDate: endOfWeek(addWeeks(date, 1)),
+  },
+  {
+    label: "Next 7 Days",
+    startDate: addWeeks(date, 1),
+    endDate: date,
+  },
+  {
+    label: "This Month",
+    startDate: startOfMonth(date),
+    endDate: endOfMonth(date),
+  },
+  {
+    label: "Next Month",
+    startDate: startOfMonth(addMonths(date, 1)),
+    endDate: endOfMonth(addMonths(date, 1)),
+  },
+];
+
+export const defaultPreviousRanges = (timeZone) =>
+  getPreviousDefaultRanges(getTimezonedDate(new Date(), timeZone));
+
+export const defaultFutureRanges = (timeZone) =>
+  getFutureDefaultRanges(getTimezonedDate(new Date(), timeZone));
 
 export const getDaysInMonth = (date) => {
   const startWeek = startOfWeek(startOfMonth(date));

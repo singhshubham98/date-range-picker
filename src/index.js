@@ -14,11 +14,12 @@ import {
 } from "date-fns";
 import {
   formatDateWithTime,
-  defaultRanges,
   formatDate,
   getTimezonedDate,
   getValidatedMonths,
   parseOptionalDate,
+  defaultPreviousRanges,
+  defaultFutureRanges,
 } from "./utils/defaults";
 import Picker from "./components/Picker";
 import { ClickAwayListener, Paper } from "@mui/material";
@@ -27,6 +28,7 @@ import { makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme) => ({
   popup: {
+    width: "fit-content",
     position: "absolute",
     zIndex: 9999,
     marginTop: "0.5rem",
@@ -38,7 +40,7 @@ export const MARKERS = {
   SECOND_MONTH: Symbol("secondMonth"),
 };
 
-export default DateRangePicker = (props) => {
+const dateRangePicker = (props) => {
   const today = getTimezonedDate(new Date(), "America/New_York");
   const {
     onChange,
@@ -48,12 +50,15 @@ export default DateRangePicker = (props) => {
     timezone = "America/New_York",
     highlightColor = "#1faf4a",
     label = "Select date range",
+    isFutureDates = false,
   } = props;
   const [open, setOpen] = useState(false);
   const textFieldRef = useRef(null);
   const classes = useStyles();
 
-  const defaultRangesWithTimezone = defaultRanges(timezone);
+  const defaultRangesWithTimezone = isFutureDates
+    ? defaultFutureRanges(timezone)
+    : defaultPreviousRanges(timezone);
   //Min date & Max Date
   const minValidDate = parseOptionalDate(
     minDate,
@@ -167,12 +172,7 @@ export default DateRangePicker = (props) => {
   };
 
   const handleClickAway = () => {
-    console.log("hi");
     setOpen(false);
-  };
-
-  const handleDateChange = (event) => {
-    console.log("event", event.target);
   };
 
   return (
@@ -213,3 +213,5 @@ export default DateRangePicker = (props) => {
     </ClickAwayListener>
   );
 };
+
+export const DateRangePicker = dateRangePicker;

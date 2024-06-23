@@ -7,16 +7,8 @@ import { MARKERS } from "..";
 import DefinedRanges from "./DefinedRanges";
 
 const useStyles = makeStyles((theme) => ({
-  header: {
-    padding: "20px 70px",
-  },
-  headerItem: {
-    flex: 1,
-    textAlign: "center",
-  },
   divider: {
     borderLeft: "1px solid rgba(0, 0, 0, 0.08)",
-    marginBottom: 20,
   },
 }));
 
@@ -50,37 +42,33 @@ const Picker = (props) => {
   };
 
   return (
-    <Paper elevation={2} square>
-      <Grid container direction="row">
-        <Grid item>
-          <Grid container direction="row" justifyContent="center">
-            <Calendar
-              {...commonProps}
-              value={firstMonth}
-              setValue={setFirstMonth}
-              navState={[true, canNavigateCloser]}
-              marker={MARKERS.FIRST_MONTH}
-            />
-            <div className={classes.divider} />
-            <Calendar
-              {...commonProps}
-              value={secondMonth}
-              setValue={setSecondMonth}
-              navState={[canNavigateCloser, true]}
-              marker={MARKERS.SECOND_MONTH}
-            />
-          </Grid>
-        </Grid>
+    <div style={{ display: "flex" }}>
+      <div style={{ display: "flex" }}>
+        <Calendar
+          {...commonProps}
+          value={firstMonth}
+          setValue={setFirstMonth}
+          navState={[true, canNavigateCloser]}
+          marker={MARKERS.FIRST_MONTH}
+        />
         <div className={classes.divider} />
-        <Grid item>
-          <DefinedRanges
-            selectedRange={dateRange}
-            ranges={ranges}
-            setRange={setDateRange}
-          />
-        </Grid>
-      </Grid>
-    </Paper>
+        <Calendar
+          {...commonProps}
+          value={secondMonth}
+          setValue={setSecondMonth}
+          navState={[canNavigateCloser, true]}
+          marker={MARKERS.SECOND_MONTH}
+        />
+      </div>
+      <div className={classes.divider} />
+      <div>
+        <DefinedRanges
+          selectedRange={dateRange}
+          ranges={ranges}
+          setRange={setDateRange}
+        />
+      </div>
+    </div>
   );
 };
 
