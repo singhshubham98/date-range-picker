@@ -28,7 +28,7 @@ import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles((theme) => ({
   popup: {
     position: "absolute",
-    zIndex: 1,
+    zIndex: 9999,
     marginTop: "0.5rem",
   },
 }));
@@ -38,7 +38,7 @@ export const MARKERS = {
   SECOND_MONTH: Symbol("secondMonth"),
 };
 
-const dateRangePicker = (props) => {
+export default DateRangePicker = (props) => {
   const today = getTimezonedDate(new Date(), "America/New_York");
   const {
     onChange,
@@ -213,5 +213,3 @@ const dateRangePicker = (props) => {
     </ClickAwayListener>
   );
 };
-
-export const DateRangePicker = dateRangePicker;

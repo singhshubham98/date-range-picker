@@ -1,18 +1,20 @@
 const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 
-module.exports = {
-  // First, we need to tell webpack where to start bundling the javascript files, this we can do by specifying entry property.
-  entry: path.join(__dirname, "index.js"),
+const commonConfig = {
+  entry: path.join(__dirname, "src", "index.js"),
   output: {
-    path: path.resolve(__dirname, "build"),
-    filename: "bundle.js",
-    publicPath: "/",
+    path: path.resolve(__dirname, "dist"),
+    filename: "index.js",
+    publicPath: "/dist",
+    library: {
+      name: "DateRangePicker", // Global variable name for your library
+      type: "umd", // Supports AMD/CommonJS/IIFE
+    },
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
@@ -22,36 +24,61 @@ module.exports = {
         },
       },
       {
-        // Preprocess our own .css files
+        // Add a rule for styled components if you're using them
         test: /\.css$/,
-        use: ["style-loader", "css-loader"],
-      },
-      {
-        test: /\.(eot|svg|otf|ttf|woff|woff2)$/,
-        use: "file-loader",
-      },
-      {
-        test: /\.(jpg|png|gif)$/,
-        use: "file-loader",
-      },
-      {
-        test: /\.html$/,
-        use: "html-loader",
+        use: [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              modules: true, // Enable CSS Modules for scoped styles
+            },
+          },
+        ],
       },
     ],
   },
   resolve: {
     extensions: [".js", ".jsx"],
+    alias: {
+      react: path.resolve(__dirname, "./node_modules/react"),
+      "react-dom": path.resolve(__dirname, "./node_modules/react-dom"),
+    },
   },
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: path.join(__dirname, "public", "index.html"),
-    }),
-  ],
-  target: "web",
+  externals: {
+    react: {
+      commonjs: "react",
+      commonjs2: "react",
+      amd: "React",
+      root: "React",
+    },
+    "react-dom": {
+      commonjs: "react-dom",
+      commonjs2: "react-dom",
+      amd: "ReactDOM",
+      root: "ReactDOM",
+    },
+    // "date-fns": {
+    //   commonjs: "date-fns",
+    //   commonjs2: "date-fns",
+    //   amd: "date-fns",
+    //   root: "date-fns",
+    // },
+    "@mui/material": {
+      commonjs: "@mui/material",
+      commonjs2: "@mui/material",
+      amd: "@mui/material",
+      root: "MaterialUI",
+    },
+  },
+  optimization: {
+    minimize: true,
+  },
   devServer: {
-    contentBase: path.join(__dirname, "build"),
+    contentBase: path.join(__dirname, "dist"),
     compress: true,
     port: 3000,
   },
 };
+
+module.exports = commonConfig;
