@@ -46,15 +46,16 @@ export default App;
 
 ## Props
 
-| Name             | Type   | Default                | Description                                        |
-| ---------------- | ------ | ---------------------- | -------------------------------------------------- |
-| onChange         | func   | null                   | Callback function to handle the date range change. |
-| initialDateRange | object | {}                     | Initial date range with startDate and endDate.     |
-| minDate          | date   | new Date(2000, 0, 1)   | Minimum selectable date.                           |
-| maxDate          | date   | new Date(2030, 11, 31) | Maximum selectable date.                           |
-| highlightColor   | string | "#1faf4a"              | Color used to highlight selected dates.            |
-| timezone         | string | America/New_York       | Time zone for the date range picker.               |
-| label            | string | "Select date range"    | Label for the date range picker input field.       |
+| Name             | Type    | Default                | Description                                        |
+| ---------------- | ------- | ---------------------- | -------------------------------------------------- |
+| onChange         | func    | null                   | Callback function to handle the date range change. |
+| initialDateRange | object  | {}                     | Initial date range with startDate and endDate.     |
+| minDate          | date    | new Date(2000, 0, 1)   | Minimum selectable date.                           |
+| maxDate          | date    | new Date(2030, 11, 31) | Maximum selectable date.                           |
+| highlightColor   | string  | "#1faf4a"              | Color used to highlight selected dates.            |
+| timezone         | string  | America/New_York       | Time zone for the date range picker.               |
+| label            | string  | "Select date range"    | Label for the date range picker input field.       |
+| isFutureDates    | boolean | false                  | Picker will use default future date ranges         |
 
 ## Contributors
 
