@@ -39,7 +39,7 @@ export const MARKERS = {
   SECOND_MONTH: Symbol("secondMonth"),
 };
 
-const dateRangePicker = (props) => {
+export default DateRangePicker = (props) => {
   const today = getTimezonedDate(new Date(), "America/New_York");
   const {
     onChange,
@@ -212,5 +212,3 @@ const dateRangePicker = (props) => {
     </ClickAwayListener>
   );
 };
-
-export const DateRangePicker = dateRangePicker;
