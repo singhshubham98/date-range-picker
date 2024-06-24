@@ -25,7 +25,7 @@ Here is a simple example of how to use the `DateRangePicker` component in your R
 
 ```javascript
 import React, { useState } from "react";
-import DateRangePicker from "date-range-picker";
+import DateRangePicker from "mui-input-date-range-picker";
 
 const App = () => {
   const [dateRange, setDateRange] = useState({
