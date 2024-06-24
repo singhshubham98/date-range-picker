@@ -5,7 +5,6 @@ import {
   isWithinInterval,
   isAfter,
   isBefore,
-  isSameMonth,
   addYears,
   max,
   min,
@@ -50,7 +49,7 @@ const dateRangePicker = (props) => {
     timezone = "America/New_York",
     highlightColor = "#1faf4a",
     label = "Select date range",
-    isFutureDates = false,
+    isFutureDates = true,
   } = props;
   const [open, setOpen] = useState(false);
   const textFieldRef = useRef(null);
@@ -79,9 +78,11 @@ const dateRangePicker = (props) => {
   );
   const [dateRange, setDateRange] = useState({ ...initialDateRange });
   const [hoverDay, setHoverDay] = useState();
-  const [firstMonth, setFirstMonth] = useState(initialFirstMonth || today);
+  const [firstMonth, setFirstMonth] = useState(
+    initialFirstMonth || isFutureDates ? today : addMonths(today, -1)
+  );
   const [secondMonth, setSecondMonth] = useState(
-    initialSecondMonth || addMonths(firstMonth, 1)
+    initialSecondMonth || isFutureDates ? addMonths(today, 1) : today
   );
   const { startDate, endDate } = dateRange;
 
@@ -104,10 +105,7 @@ const dateRangePicker = (props) => {
       range.endDate = newEnd = min([newEnd, maxValidDate]);
       setDateRange(range);
       onChange && onChange(range);
-      setFirstMonth(newStart);
-      setSecondMonth(
-        isSameMonth(newStart, newEnd) ? addMonths(newStart, 1) : newEnd
-      );
+      setOpen(false);
     }
   };
 
@@ -120,6 +118,7 @@ const dateRangePicker = (props) => {
           endDate: formatDate(newRange.endDate),
         });
       setDateRange(newRange);
+      setOpen(false);
     } else {
       setDateRange({ startDate: startOfDay(day), endDate: undefined });
     }
