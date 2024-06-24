@@ -1,6 +1,6 @@
 {
   "name": "mui-input-date-range-picker",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "react date range picker",
   "main": "dist/index.js",
   "files": [

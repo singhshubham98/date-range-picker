@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonText: {
     lineHeight: 1.6,
+    fontSize: 14,
   },
   outlined: (props) => ({
     border: `1px solid ${props.highlightColor}`,
@@ -67,7 +68,6 @@ const Day = (props) => {
             classes.buttonText,
             !props.disabled && props.filled && classes.contrast
           )}
-          variant="body2"
         >
           {props.value}
         </Typography>
