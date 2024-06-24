@@ -73,7 +73,11 @@ const Calendar = (props) => {
         {WEEK_DAYS.map((day) => (
           <div style={{ display: "flex" }} key={day}>
             <IconButton disabled={true} className={classes.weekDay}>
-              <Typography variant="caption">{day}</Typography>
+              <Typography
+                style={{ color: "#787774", fontWeight: "400", fontSize: 14 }}
+              >
+                {day}
+              </Typography>
             </IconButton>
           </div>
         ))}
